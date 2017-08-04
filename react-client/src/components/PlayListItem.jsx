@@ -1,9 +1,9 @@
 import React from 'react';
 
-const ListItem = (props) => (
+const PlayListItem = (props) => (
   <div>
     { props.item.description }
   </div>
 )
 
-export default ListItem;
+export default PlayListItem;

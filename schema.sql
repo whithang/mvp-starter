@@ -65,6 +65,8 @@ INSERT INTO courses (name, city, state, booking_url, website) VALUES
   ('Gleneagles at McLaren Park', 'San Francisco', 'CA', 'https://gleneaglesgcres.ezlinks.com/Search/ReservationChannel.aspx', 'http://www.gleneaglesgolfsf.com/rates/'),
   ('Sharp Park Golf Course', 'Pacifica', 'CA', 'https://sharppark.ezlinks.com/Search/ReservationChannel.aspx', 'http://sfrecpark.org/destination/sharp-park/sharp-park-golf-course/');
 
+INSERT INTO golfers (first_name, last_name, phone, email, password, city, state) VALUES
+  ('Kelly', 'Whiting', '4153146506', 'kwhiting@gmail.com', SHA2('hackreactor', 0), 'San Francisco', 'CA');
 
 /*  Execute this file from the command line by typing:
  *    mysql -u root < server/schema.sql
