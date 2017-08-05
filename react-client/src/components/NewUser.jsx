@@ -27,7 +27,7 @@ class NewUser extends React.Component {
   }
 
   handleSubmit(e){
-    props.submit(this.state);
+    this.props.submit(this.state);
   }
 
  render() {
@@ -36,24 +36,24 @@ class NewUser extends React.Component {
     <h3>Create a New User Account:</h3>
       <form onSubmit={this.handleSubmit.bind(this)}>
         <p>
-          <label>Email / Login: <input type='text' name='email' /></label>
+          <label>Email / Login: <input type='text' name='email' onChange={this.handleChange.bind(this)} /></label>
           &emsp;&emsp;
-          <label>Password: <input type='text' name='password' /></label>
+          <label>Password: <input type='password' name='password' onChange={this.handleChange.bind(this)} /></label>
         </p>
         <p>
-          <label>First Name: <input type='text' name='first_name' /></label>
+          <label>First Name: <input type='text' name='first_name' onChange={this.handleChange.bind(this)} /></label>
           &emsp;&emsp;&emsp;
-          <label>Last Name: <input type='text' name='last_name' /></label>
+          <label>Last Name: <input type='text' name='last_name' onChange={this.handleChange.bind(this)} /></label>
         </p>
         <p>
-          <label>City: <input type='text' name='city' /></label>
+          <label>City: <input type='text' name='city' onChange={this.handleChange.bind(this)} /></label>
           &emsp;&emsp;
-          <label>State: <input type='text' name='state' /></label>
+          <label>State: <input type='text' name='state' onChange={this.handleChange.bind(this)} /></label>
         </p>
         <p>
-        <label>Phone: <input type='text' name='phone' /></label>
+        <label>Phone: <input type='text' name='phone' onChange={this.handleChange.bind(this)} /></label>
         &emsp;&emsp;
-        <label>Golf Handicap: <input type='text' name='handicap' /></label>
+        <label>Golf Handicap: <input type='text' name='handicap' onChange={this.handleChange.bind(this)} /></label>
         </p>
         &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
         <input type='submit' value='Submit'/>

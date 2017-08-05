@@ -69,5 +69,5 @@ INSERT INTO golfers (first_name, last_name, phone, email, password, city, state)
   ('Kelly', 'Whiting', '4153146506', 'kwhiting@gmail.com', SHA2('hackreactor', 0), 'San Francisco', 'CA');
 
 /*  Execute this file from the command line by typing:
- *    mysql -u root < server/schema.sql
+ *    mysql -u root < schema.sql
  *  to create the database and the tables.*/
