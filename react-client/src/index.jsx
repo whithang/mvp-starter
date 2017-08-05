@@ -92,12 +92,12 @@ class App extends React.Component {
   // only display play a round button if current user exists
   // on click play button, redirect to NewPlayTime form page
   render () {
-    // if (this.state.signin) {
-    //   return (
-    //     <h1>Signin to Your Golf Partner Linkup Account</h1>
-    //     <div>
-    //
-    //     </div>)
+    if (this.state.signin) {
+      return (
+        <div><h1>Signin to Your Golf Partner Linkup Account</h1>
+        </div>)
+      } else {
+      // } else {
     // } else if (this.state.new_account) {
     //   return (
     //     <h1>Create a New Account on Golf Partner Linkup</h1>
@@ -119,7 +119,7 @@ class App extends React.Component {
         </div>
         <PlayList items={this.state.play_times}/>
       </div>)
-    // }
+    }
   }
 }
 
