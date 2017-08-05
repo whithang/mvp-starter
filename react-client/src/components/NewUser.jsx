@@ -6,6 +6,7 @@ import React from 'react';
 // restrict size of input in fields and validity of email and int for handicap
 // make password input be encrypted
 const NewUser = (props) => (
+  <h1>Create a New User Account:</h1>
   <div>
     <form>
       <label>Email / Login: <input type='text' name='email' /></label>
@@ -24,4 +25,4 @@ const NewUser = (props) => (
   </div>
 )
 
-export default NewUser;
+ReactDOM.render(<NewUser />, document.getElementById('signup'));
