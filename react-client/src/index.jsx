@@ -70,12 +70,12 @@ class App extends React.Component {
     });
   }
 
-  addGolfer() {
+  addGolfer(event) {
     var context = this;
     $.ajax({
       method: 'POST',
       url: '/golfers',
-      data: {}, //add data from the form
+      data: {event}, //add data from the form
       success: (data) => {
         if (data) {
           //update playtimes to render

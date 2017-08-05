@@ -6,12 +6,12 @@ import React from 'react';
 // restrict size of input in fields and validity of email and int for handicap
 // make password input be encrypted
 const UserLogin = (props) => (
-  <h1>Signin to Your Account:</h1>
   <div>
+  <h3>Signin to Your Account:</h3>
     <form>
       <label>Email / Login: <input type='text' name='email' /></label>
       <label>Password: <input type='text' name='password' /></label>
-      
+
       <input type='submit' value='Submit' />
     </form>
   </div>
