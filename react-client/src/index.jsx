@@ -97,28 +97,26 @@ class App extends React.Component {
         <div><h1>Signin to Your Golf Partner Linkup Account</h1>
         </div>)
       } else {
-      // } else {
-    // } else if (this.state.new_account) {
-    //   return (
-    //     <h1>Create a New Account on Golf Partner Linkup</h1>
-    //     <div>
-    //
-    //     </div>)
-    // } else {
-      return (<div>
-        <h1>Welcome to Golf Partner Linkup</h1>
-        <div>
-          <button onClick={this.signIn.bind(this)}>Sign in</button> or <button onClick={this.newAccount.bind(this)}>Create a New User Account</button>
-        </div>
-        <br></br>
-        <div>
-          <UserList users={this.state.all_users}/>
-        </div>
-        <div>
-          <button onClick=''>When Do You Want to Play a Round?</button>
-        </div>
-        <PlayList items={this.state.play_times}/>
-      </div>)
+    if (this.state.new_account) {
+      return (
+        <div><h1>Create a New Account on Golf Partner Linkup</h1>
+        </div>)
+      } else {
+        return (<div>
+          <h1>Welcome to Golf Partner Linkup</h1>
+          <div>
+            <button onClick={this.signIn.bind(this)}>Sign in</button> or <button onClick={this.newAccount.bind(this)}>Create a New User Account</button>
+          </div>
+          <br></br>
+          <div>
+            <UserList users={this.state.all_users}/>
+          </div>
+          <div>
+            <button onClick=''>When Do You Want to Play a Round?</button>
+          </div>
+          <PlayList items={this.state.play_times}/>
+        </div>)
+      }
     }
   }
 }
