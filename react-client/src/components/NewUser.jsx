@@ -25,4 +25,4 @@ const NewUser = (props) => (
   </div>
 )
 
-ReactDOM.render(<NewUser />, document.getElementById('signup'));
+export default NewUser;

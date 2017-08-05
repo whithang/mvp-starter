@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import Popup from 'react-popup';
 import $ from 'jquery';
 import PlayList from './components/PlayList.jsx';
 import UserList from './components/UserList.jsx';
-// import {Router, Route, Switch} from 'react-router';
+import NewUser from './components/NewUser.jsx';
+import UserLogin from './components/UserLogin.jsx';
 //var server_url = 'http://localhost:3000';
 
 class App extends React.Component {
@@ -21,11 +21,12 @@ class App extends React.Component {
   }
 
   componentDidMount() { //remove this once login works
+    var context = this;
     $.ajax({
       method: 'GET',
       url: '/golfers',
       success: (data) => {
-        this.setState({
+        context.setState({
           all_users: data
         })
       },
@@ -42,15 +43,16 @@ class App extends React.Component {
   }
 
   authenticateGolfer() {
+    var context = this;
     $.ajax({
       method: 'GET',
       url: '/golfers',
       success: (data) => {
         if (data) {
-          this.setState({
+          context.setState({
             current_user: data.first_name
           });
-          this.setState({
+          context.setState({
             signin: false
           });
         }
@@ -69,6 +71,7 @@ class App extends React.Component {
   }
 
   addGolfer() {
+    var context = this;
     $.ajax({
       method: 'POST',
       url: '/golfers',
@@ -76,7 +79,7 @@ class App extends React.Component {
       success: (data) => {
         if (data) {
           //update playtimes to render
-          this.setState({
+          context.setState({
             new_account: false
           });
         }
@@ -95,11 +98,13 @@ class App extends React.Component {
     if (this.state.signin) {
       return (
         <div><h1>Signin to Your Golf Partner Linkup Account</h1>
+          <UserLogin submit={this.authenticateGolfer.bind(this)}/>
         </div>)
       } else {
     if (this.state.new_account) {
       return (
         <div><h1>Create a New Account on Golf Partner Linkup</h1>
+          <NewUser submit={this.addGolfer.bind(this)}/>
         </div>)
       } else {
         return (<div>
