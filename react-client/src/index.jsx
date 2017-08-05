@@ -5,6 +5,7 @@ import PlayList from './components/PlayList.jsx';
 import UserList from './components/UserList.jsx';
 import NewUser from './components/NewUser.jsx';
 import UserLogin from './components/UserLogin.jsx';
+//import MenuStuff from './components/MenuStuff.jsx';
 //var server_url = 'http://localhost:3000';
 
 class App extends React.Component {
@@ -71,11 +72,12 @@ class App extends React.Component {
   }
 
   addGolfer(golfer_data) {
+    console.log('********before post add golfer ', golfer_data);
     var context = this;
     $.ajax({
       method: 'POST',
       url: '/golfers',
-      data: {golfer_data}, //add data from the form
+      data: JSON.stringify(golfer_data), //add data from the form
       success: (data) => {
         if (data) {
           //update playtimes to render
@@ -94,6 +96,7 @@ class App extends React.Component {
   // on click for new user redirect to NewUser form page
   // only display play a round button if current user exists
   // on click play button, redirect to NewPlayTime form page
+  // add menu on top for courses and then add a playtime to a course
   render () {
     if (this.state.signin) {
       return (

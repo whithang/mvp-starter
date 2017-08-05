@@ -31,7 +31,12 @@ module.exports.selectGolfers = function(callback) {
 
 module.exports.addGolfer = function(golfer, callback) {
   //golfer input format is {col: value}
-  connection.query('INSERT INTO golfers (first_name, last_name, phone, email, password, city, state, handicap) SET ?',
+  // SHA2('hackreactor', 0)
+  // golfer['password'] = 'SHA2(' + golfer['password'] + ', 0)';
+  console.log('*********golfer data ', golfer);
+
+  connection.query('INSERT INTO golfers (first_name, last_name, phone, email, password, city, state, handicap) VALUES ' +//(?),
+    `('${golfer.first_name}', '${golfer.last_name}', '${golfer.phone}', '${golfer.email}', SHA2('${golfer.password}', 0), '${golfer.city}', '${golfer.state}', ${golfer.handicap})`,
     golfer, function(err, results, fields) {
       if(err) {
         callback(err, null);

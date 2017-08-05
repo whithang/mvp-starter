@@ -27,6 +27,7 @@ class NewUser extends React.Component {
   }
 
   handleSubmit(e){
+    // this.setState({password: SHA2(this.state.password, 0)});
     this.props.submit(this.state);
   }
 
