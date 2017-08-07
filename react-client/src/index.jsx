@@ -34,19 +34,19 @@ class App extends React.Component {
   // }
 
   componentDidMount() { //remove this once login works
-    // var context = this;
-    // $.ajax({
-    //   method: 'GET',
-    //   url: '/users',
-    //   success: (data) => {
-    //     context.setState({
-    //       all_users: data
-    //     })
-    //   },
-    //   error: (err) => {
-    //     console.log('err', err);
-    //   }
-    // });
+    var context = this;
+    $.ajax({
+      method: 'GET',
+      url: '/volunteer_slots',
+      success: (data) => {
+        context.setState({
+          volunteer_slots: data
+        })
+      },
+      error: (err) => {
+        console.log('err', err);
+      }
+    });
   }
 
   newAccount() {
@@ -178,6 +178,17 @@ class App extends React.Component {
       }
     });
   }
+
+  handleChange(e) {
+    var stateObj = {};
+    stateObj[e.target.name] = $.trim(e.target.value);
+    this.setState(stateObj);
+  }
+
+  handleSubmit(e){
+    // this.setState({password: SHA2(this.state.password, 0)});
+    this.props.submit(this.state);
+  }
   // optionally only display new user button if no current user exists
   // on click for new user redirect to NewUser form page
   // only display play a round button if current user exists
@@ -188,7 +199,15 @@ class App extends React.Component {
     if (this.state.signup) {
       return (
         <div><h1>Signup to Volunteer!</h1>
-          <VolunteerSlotList submit={this.newVolunteerBooking.bind(this)}/>
+          <h3>For Volunteers with an Active Account, Enter Your Login Info and Select an Event:</h3>
+            <p>
+              <label>Verify Your Account:
+                <br></br><br></br>
+                Email: <input type='text' name='email' onChange={this.handleChange.bind(this)} /></label>
+              &emsp;&emsp;&emsp;
+              <label>Password: <input type='password' name='password' onChange={this.handleChange.bind(this)} /></label>
+            </p>
+          <VolunteerSlotList items={this.state.volunteer_slots} submit={this.newVolunteerBooking.bind(this)}/>
         </div>)
       } else {
     if (this.state.new_account) {

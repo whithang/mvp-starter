@@ -30,16 +30,15 @@ app.post('/signup', function (req, res) {
     //need to confirm data format is {col: value}
     database.addUser(body, function(err, data) {
       if(err) {
-        console.log('*****')
-        res.sendStatus(500);
+        res.status(500).json(data);
       } else {
         // res.sendStatus(201);
-        res.json(data); //need to parse on receipt on client side
+        res.status(201).json(data); //need to parse on receipt on client side
       }
     });
   }).on('error', (err) => {
     console.error(err);
-    res.sendStatus(400);
+    res.status(400).json(err);
   });
 });
 
@@ -53,25 +52,25 @@ app.post('/booking', function (req, res) {
     database.checkUser(body, function(err, data) {
       if(err) {
         console.log('***** check user failed');
-        res.sendStatus(500);
+        res.status(500).json(err);
       } else if (data) {
         database.addBooking(body, function(err, data) {
           if(err) {
             console.log('***** booking update error');
-            res.sendStatus(500);
+            res.status(500).json(err);
           } else {
             // res.sendStatus(201);
             console.log('***** booking update successful');
-            res.json(data); //need to parse on receipt on client side
+            res.status(201).json(data); //need to parse on receipt on client side
           }
         });
       } else {
         console.log('No user exists. Try Again');
-        res.sendStatus(400);
+        res.status(400).json(err);
       }});
     }).on('error', (err) => {
       console.error(err);
-      res.sendStatus(400);
+      res.status(400).json(err);
   });
 });
 
@@ -84,25 +83,24 @@ app.post('/locations', function (req, res) {
     //need to confirm data format is {col: value}
     database.addLocation(body, function(err, data) {
       if(err) {
-        console.log('*****')
-        res.sendStatus(500);
+        res.status(500).json(err);
       } else {
         // res.sendStatus(201);
-        res.json(data); //need to parse on receipt on client side
+        res.status(201).json(data); //need to parse on receipt on client side
       }
     });
   }).on('error', (err) => {
     console.error(err);
-    res.sendStatus(400);
+    res.status(400).json(err);
   });
 });
 
 app.get('/volunteer_slots', function (req, res) {
   database.selectVolunteerSlots(function(err, data) {
     if(err) {
-      res.sendStatus(500);
+      res.status(500).json(err);
     } else {
-      res.json(data); //need to parse on receipt on client side
+      res.status(200).json(data); //need to parse on receipt on client side
     }
   });
 });
@@ -124,17 +122,26 @@ app.post('/volunteer_slots', function (req, res) {
   }).on('end', () => {
     body = Buffer.concat(body).toString();
     //need to confirm data format is {col: value}
-    database.addVolunteerSlot(body, function(err, data) {
+    //first should validate location signin
+    database.checkLocation(body, function(err, data) {
       if(err) {
-        res.sendStatus(500);
+        res.status(500).json(err);
       } else {
-        // res.sendStatus(201);
-        res.json(data); //need to parse on receipt on client side
+        body = JSON.parse(body);
+        body['location_id'] = data;
+        database.addVolunteerSlot(body, function(err, data) {
+          if(err) {
+            res.status(500).json(err);
+          } else {
+            console.log('******** results after add slot ', data);
+            res.status(201).json(data); //need to parse on receipt on client side
+          }
+        });
       }
     });
   }).on('error', (err) => {
     console.error(err);
-    res.sendStatus(400);
+    res.status(400).json(err);
   });
 });
 

@@ -42,7 +42,7 @@ class NewLocation extends React.Component {
           <label>Password: <input type='password' name='password' onChange={this.handleChange.bind(this)} /></label>
         </p>
         <p>
-          <label>Location Name: <input type='text' name='name' onChange={this.handleChange.bind(this)} /></label>
+          <label>Volunteer Organization: <input type='text' name='name' onChange={this.handleChange.bind(this)} /></label>
           &emsp;&emsp;&emsp;
           <label>Phone: <input type='text' name='phone' onChange={this.handleChange.bind(this)} /></label>
         </p>
