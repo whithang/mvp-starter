@@ -4,13 +4,13 @@ var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
   password : '',
-  database : 'golf'
+  database : 'volunteer'
 });
 
 connection.connect();
 
-module.exports.selectPlayTimes = function(callback) {
-  connection.query('SELECT * FROM play_times', function(err, results, fields) {
+module.exports.selectUsers = function(callback) {
+  connection.query('SELECT * FROM volunteers', function(err, results, fields) {
     if(err) {
       callback(err, null);
     } else {
@@ -19,25 +19,10 @@ module.exports.selectPlayTimes = function(callback) {
   });
 };
 
-module.exports.selectGolfers = function(callback) {
-  connection.query('SELECT * FROM golfers', function(err, results, fields) {
-    if(err) {
-      callback(err, null);
-    } else {
-      callback(null, results);
-    }
-  });
-};
-
-module.exports.addGolfer = function(golfer, callback) {
-  //golfer input format is {col: value}
-  // SHA2('hackreactor', 0)
-  // golfer['password'] = 'SHA2(' + golfer['password'] + ', 0)';
-  console.log('*********golfer data ', golfer);
-
-  connection.query('INSERT INTO golfers (first_name, last_name, phone, email, password, city, state, handicap) VALUES ' +//(?),
-    `('${golfer.first_name}', '${golfer.last_name}', '${golfer.phone}', '${golfer.email}', SHA2('${golfer.password}', 0), '${golfer.city}', '${golfer.state}', ${golfer.handicap})`,
-    golfer, function(err, results, fields) {
+module.exports.addUser = function(user, callback) {
+  connection.query('INSERT INTO volunteers (first_name, last_name, phone, email, password, city, state) VALUES ' +
+    `('${user.first_name}', '${user.last_name}', '${user.phone}', '${user.email}', SHA2('${user.password}', 0), '${user.city}', '${user.state}')`,
+    function(err, results, fields) {
       if(err) {
         callback(err, null);
       } else {
@@ -46,9 +31,42 @@ module.exports.addGolfer = function(golfer, callback) {
   });
 };
 
-module.exports.addPlayTimes = function(schedule, callback) {
+module.exports.selectLocations = function(callback) {
+  connection.query('SELECT * FROM locations', function(err, results, fields) {
+    if(err) {
+      callback(err, null);
+    } else {
+      callback(null, results);
+    }
+  });
+};
+
+module.exports.addLocations = function(location, callback) {
+  connection.query('INSERT INTO locations (name, phone, email, password, city, state, website) VALUES ' +
+    `('${location.name}', '${location.phone}', '${location.email}', SHA2('${location.password}', 0), '${location.city}', '${location.state}, '${location.website}')`,
+    function(err, results, fields) {
+      if(err) {
+        callback(err, null);
+      } else {
+        callback(null, results);
+      }
+  });
+};
+
+module.exports.selectVolunteerSlots = function(callback) {
+  connection.query('SELECT * FROM volunteer_slots', function(err, results, fields) {
+    if(err) {
+      callback(err, null);
+    } else {
+      callback(null, results);
+    }
+  });
+};
+
+module.exports.addVolunteerSlots = function(schedule, callback) {
   //schedule input format is {col: value}
-  connection.query('INSERT INTO play_times (golfer_id, course_id, play_date, start_time, end_time) SET ?',
+  connection.query('INSERT INTO volunteer_slots (location_id, volunteer_date, start_time, end_time, num_volunteers_booked, num_volunteers_needed) VALUES ' +
+  `('${schedule.location_id}', '${schedule.volunteer_date}', '${schedule.start_time}', '${schedule.end_time}', '${schedule.num_volunteers_booked}', '$${schedule.num_volunteers_needed}')`,
     schedule, function(err, results, fields) {
       if(err) {
         callback(err, null);
@@ -57,3 +75,37 @@ module.exports.addPlayTimes = function(schedule, callback) {
       }
   });
 };
+
+module.exports.selectVolunteerBookings = function(callback) {
+  connection.query('SELECT * FROM volunteer_bookings', function(err, results, fields) {
+    if(err) {
+      callback(err, null);
+    } else {
+      callback(null, results);
+    }
+  });
+};
+
+module.exports.addVolunteerBookings = function(schedule, callback) {
+  //schedule input format is {col: value}
+  connection.query('INSERT INTO volunteer_bookings (volunteer_id, slot_id) VALUES ' +
+  `('${schedule.volunteer_id}', '${schedule.slot_id}')`,
+    schedule, function(err, results, fields) {
+      if(err) {
+        callback(err, null);
+      } else {
+        callback(null, results);
+      }
+  });
+};
+
+// module.exports.getUser = function(id) {
+//   connection.query('SELECT first_name FROM volunteers WHERE id=' + id,
+//     function(err, results, fields) {
+//       if(err) {
+//         callback(err, null);
+//       } else {
+//         callback(null, results);
+//       }
+//   });
+// }

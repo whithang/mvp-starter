@@ -8,12 +8,15 @@ module.exports = {
     filename: 'bundle.js',
     path: DIST_DIR
   },
+  // resolve: {
+  //   extensions: ['.jsx', '.js']
+  // },
   module : {
     loaders : [
       {
         test : /\.jsx?/,
         include : SRC_DIR,
-        loader : 'babel-loader',      
+        loader : 'babel-loader',
         query: {
           presets: ['react', 'es2015']
        }

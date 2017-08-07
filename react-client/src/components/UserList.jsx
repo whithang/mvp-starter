@@ -7,8 +7,6 @@ const UserList = (props) => (
       { props.users.map(user =>
         <li key={user.id}><b>Name:</b> {user.first_name} {user.last_name}
           <br></br>
-          <b>Handicap:</b> {user.handicap ? user.handicap : 'N/A'}
-          <br></br>
           <b>Location:</b> {user.city}, {user.state}
           <br></br>
           <b>Email:</b> {user.email}
@@ -16,6 +14,11 @@ const UserList = (props) => (
       )}
     </ul>
   </div>
-)
+);
+
+//use of this is deprecated and no longer needed, plugins available if you want
+// UserList.propTypes = {
+//   users: React.PropTypes.array
+// };
 
 export default UserList;

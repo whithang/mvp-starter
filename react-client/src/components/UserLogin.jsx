@@ -5,16 +5,38 @@ import React from 'react';
 // make state a dropdown field
 // restrict size of input in fields and validity of email and int for handicap
 // make password input be encrypted
-const UserLogin = (props) => (
-  <div>
-  <h3>Signin to Your Account:</h3>
-    <form>
-      <label>Email / Login: <input type='text' name='email' /></label>
-      <label>Password: <input type='text' name='password' /></label>
+class UserLogin extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      password: ''
+    };
+  }
 
-      <input type='submit' value='Submit' />
-    </form>
-  </div>
-)
+  handleChange(e) {
+    var stateObj = {};
+    stateObj[e.target.name] = $.trim(e.target.value);
+    this.setState(stateObj);
+  }
+
+  handleSubmit(e){
+    // this.setState({password: SHA2(this.state.password, 0)});
+    this.props.submit(this.state);
+  }
+
+  render() {
+      return (<div>
+        <form>
+          <label>Email / Login: <input type='text' name='email' /></label>
+          <label>Password: <input type='text' name='password' /></label>
+
+          <input type='submit' value='Submit' />
+        </form>
+      </div>
+    )
+  }
+
+}
 
 export default UserLogin;

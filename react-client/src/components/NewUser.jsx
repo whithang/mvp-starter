@@ -9,14 +9,13 @@ class NewUser extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
-      first_name: '',
-      last_name: '',
-      city: '',
-      state: '',
-      phone: '',
-      handicap: '',
+      email: null,
+      password: null,
+      first_name: null,
+      last_name: null,
+      city: null,
+      state: null,
+      phone: null
     };
   }
 
@@ -28,13 +27,14 @@ class NewUser extends React.Component {
 
   handleSubmit(e){
     // this.setState({password: SHA2(this.state.password, 0)});
+    // this.setState({golfer_data['method']: 'addGolfer'});
     this.props.submit(this.state);
   }
 
  render() {
     return (
     <div>
-    <h3>Create a New User Account:</h3>
+    <h3>Create a User Account:</h3>
       <form onSubmit={this.handleSubmit.bind(this)}>
         <p>
           <label>Email / Login: <input type='text' name='email' onChange={this.handleChange.bind(this)} /></label>
@@ -53,8 +53,6 @@ class NewUser extends React.Component {
         </p>
         <p>
         <label>Phone: <input type='text' name='phone' onChange={this.handleChange.bind(this)} /></label>
-        &emsp;&emsp;
-        <label>Golf Handicap: <input type='text' name='handicap' onChange={this.handleChange.bind(this)} /></label>
         </p>
         &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
         <input type='submit' value='Submit'/>

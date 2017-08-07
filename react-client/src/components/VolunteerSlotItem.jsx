@@ -1,9 +1,9 @@
 import React from 'react';
 
-const PlayListItem = (props) => (
+const VolunteerSlotItem = (props) => (
   <div>
     { props.item.description }
   </div>
 )
 
-export default PlayListItem;
+export default VolunteerSlotItem;
