@@ -2,9 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import VolunteerSlotList from './components/VolunteerSlotList.jsx';
-import UserList from './components/UserList.jsx';
+import NewLocation from './components/NewLocation.jsx';
 import NewUser from './components/NewUser.jsx';
-import UserLogin from './components/UserLogin.jsx';
 import NewVolunteerSlot from './components/NewVolunteerSlot.jsx';
 
 //similar website: www.teeoffbuddies.com
@@ -20,9 +19,11 @@ class App extends React.Component {
       // current_user: user.current_user,
       // current_user_id: user.current_user_id,
       all_users: [],
-      signin: false,
+      all_slots: [],
+      signup: false,
       new_account: false,
-      new_volunteer_slot: false
+      new_volunteer_slot: false,
+      new_location: false
       //add logged in state to maintain
     }
   }
@@ -33,52 +34,19 @@ class App extends React.Component {
   // }
 
   componentDidMount() { //remove this once login works
-    var context = this;
-    $.ajax({
-      method: 'GET',
-      url: '/users',
-      success: (data) => {
-        context.setState({
-          all_users: data
-        })
-      },
-      error: (err) => {
-        console.log('err', err);
-      }
-    });
-  }
-
-  signIn() {
-    this.setState({
-      signin: true
-    });
-  }
-
-  authenticateUser(username, password) {
-    var loginData = {'username': username, 'password': password};
-    var context = this;
-    $.ajax({
-      method: 'POST',
-      url: '/users',
-      data: JSON.stringify(loginData),
-      success: (data) => {
-        if (data) {
-          // context.setState({
-          //   current_user: data.first_name,
-          //   current_user_id: data.id
-          // });
-          // user.current_user = data.first_name;
-          // user.current_user_id = data.id;
-          context.setState({
-            signin: false
-          });
-        }
-      },
-      error: (err) => {
-        alert('Incorrect Login Information. Please try again or create a new user account.')
-        console.log('err', err);
-      }
-    });
+    // var context = this;
+    // $.ajax({
+    //   method: 'GET',
+    //   url: '/users',
+    //   success: (data) => {
+    //     context.setState({
+    //       all_users: data
+    //     })
+    //   },
+    //   error: (err) => {
+    //     console.log('err', err);
+    //   }
+    // });
   }
 
   newAccount() {
@@ -91,7 +59,7 @@ class App extends React.Component {
     var context = this;
     $.ajax({
       method: 'POST',
-      url: '/users',
+      url: '/signup',
       data: JSON.stringify(user_data), //add data from the form
       success: (data) => {
         if (data) {
@@ -105,7 +73,64 @@ class App extends React.Component {
         }
       },
       error: (err) => {
+        alert('Incorrect Signup Information. Please try again.')
+        console.log('err', err);
+      }
+    });
+  }
+
+  signUp() {
+    this.setState({
+      signup: true
+    });
+  }
+
+  newVolunteerBooking(booking) {
+    //will confirm user login correct and then create booking record
+    var context = this;
+    $.ajax({
+      method: 'POST',
+      url: '/booking',
+      data: JSON.stringify(booking),
+      success: (data) => {
+        if (data) {
+          context.setState({
+            signin: false
+          });
+        }
+      },
+      error: (err) => {
         alert('Incorrect Login Information. Please try again or create a new user account.')
+        console.log('err', err);
+      }
+    });
+  }
+
+  newLocation() {
+    this.setState({
+      new_location: true
+    });
+  }
+
+  addLocation(location_data) {
+    var context = this;
+    $.ajax({
+      method: 'POST',
+      url: '/locations',
+      data: JSON.stringify(location_data), //add data from the form
+      success: (data) => {
+        if (data) {
+          //update playtimes to render
+          //state is resetting so i don't know who just logged in
+          //might need to set session and cookies
+          // user.current_user_id = data.insertId;
+          context.setState({
+            new_location: false
+          });
+        }
+      },
+      error: (err) => {
+        alert('Incorrect Location Insert Information. Please try again.')
         console.log('err', err);
       }
     });
@@ -137,6 +162,22 @@ class App extends React.Component {
       }
     });
   }
+
+  getVolunteerSlots() {
+    var context = this;
+    $.ajax({
+      method: 'GET',
+      url: '/volunteer_slots',
+      success: (data) => {
+        context.setState({
+          all_slots: data
+        })
+      },
+      error: (err) => {
+        console.log('err', err);
+      }
+    });
+  }
   // optionally only display new user button if no current user exists
   // on click for new user redirect to NewUser form page
   // only display play a round button if current user exists
@@ -144,38 +185,45 @@ class App extends React.Component {
   // add menu on top for courses and then add a playtime to a course
   // add bootsrap for a menu at the top
   render () {
-    if (this.state.signin) {
+    if (this.state.signup) {
       return (
-        <div><h1>Signin to Your Volunteer Account</h1>
-          <UserLogin submit={this.authenticateUser.bind(this)}/>
+        <div><h1>Signup to Volunteer!</h1>
+          <VolunteerSlotList submit={this.newVolunteerBooking.bind(this)}/>
         </div>)
       } else {
     if (this.state.new_account) {
       return (
-        <div><h1>New Account on Volunteer Signup</h1>
+        <div><h1>New Volunteer Account on Volunteer Signup</h1>
           <NewUser submit={this.addUser.bind(this)}/>
         </div>)
       } else {
         if (this.state.new_volunteer_slot) {
           return (
-            <div><h1>So Volunteers Can Find You</h1>
+            <div><h1>Add New Events So Volunteers Can Find You</h1>
               <NewVolunteerSlot submit={this.addVolunteerSlot.bind(this)} />
             </div>)
           } else {
-          return (<div>
-            <h1>Welcome to Volunteer Signup</h1>
-            <div>
-              <button onClick={this.signIn.bind(this)}>Sign in</button> or <button onClick={this.newAccount.bind(this)}>Create a New User Account</button>
-            </div>
-            <br></br>
-            <div>
-              <UserList users={this.state.all_users}/>
-            </div>
-            <div>
-              <button onClick={this.newVolunteerSlot.bind(this)}>When Do You Want to Volunteer?</button>
-            </div>
-            <VolunteerSlotList items={this.state.volunteer_slots}/>
-          </div>)
+            if (this.state.new_location) {
+              return (
+                <div><h1>Setup a New Volunteer Location on Volunteer Signup</h1>
+                  <NewLocation submit={this.addLocation.bind(this)}/>
+                </div>)
+            } else {
+            return (<div>
+              <h1>Welcome to Volunteer Signup</h1>
+              <div>
+                <h3>For Volunteers:</h3>
+                <button onClick={this.newAccount.bind(this)}>Create a New User Account</button> or <button onClick={this.signUp.bind(this)}>Sign up to Volunteer</button>
+              </div>
+              <br></br>
+                <div>
+                  <h3>For Locations:</h3>
+                  <button onClick={this.newLocation.bind(this)}>Create a New Location Account</button> or <button onClick={this.newVolunteerSlot.bind(this)}>Post New Volunteer Events</button>
+                </div>
+                <br></br>
+              <VolunteerSlotList items={this.state.volunteer_slots}/>
+            </div>)
+          }
         }
       }
     }
